@@ -30,12 +30,6 @@ CREATE TABLE `locations` (
     `longitude` DOUBLE(8, 6),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
-CREATE TABLE `quotes` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `author` INT,
-    `text` TEXT NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 ALTER TABLE `user_profiles` ADD FOREIGN KEY (`location_id`) REFERENCES `locations`(`id`) ON DELETE SET NULL;
 ALTER TABLE `user_posts` ADD FOREIGN KEY (`author`) REFERENCES `user_profiles`(`id`) ON DELETE SET NULL;
 ALTER TABLE `post_comments` ADD FOREIGN KEY (`author`) REFERENCES `user_profiles`(`id`) ON DELETE SET NULL;

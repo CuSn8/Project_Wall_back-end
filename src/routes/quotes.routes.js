@@ -3,9 +3,9 @@ const router = require('express').Router();
 
 router.get('/', (req, res) => {
   console.log(req);
-    connection.query('SELECT * FROM user_profiles', (err, result) => {
+    connection.query('SELECT * FROM `quotes`', (err, result) => {
       if (err) {
-        res.status(500).send('Error retrieving users from database');
+        res.status(500).send('Error retrieving quotes from database');
       } else {
         res.json(result);
       }
@@ -15,13 +15,13 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
 const userId = req.params.id;
 connection.query(
-    'SELECT * FROM user_profiles WHERE id = ?',
+    'SELECT * FROM `quotes` WHERE `author` = ?',
     [userId],
     (err, results) => {
     if (err) {
         res.status(500).send('Error retrieving user from database');
     } else {
-        if (results.length) res.json(results[0]);
+        if (results.length) res.json(results);
         else res.status(404).send('User not found');
     }
     }
