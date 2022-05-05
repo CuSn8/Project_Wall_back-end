@@ -28,6 +28,4 @@ connection.query(
 );
 }); 
 
-
-
 module.exports = router;
