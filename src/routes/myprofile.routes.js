@@ -8,12 +8,17 @@ router.use(session({
   resave: true,
 saveUninitialized: true
 }));
+router.use(function (req, res, next) {
+    req.session.test = "test";
+    next();
+  });
 
 // MY PROFILE
 
 router.get('/', (req, res) => {
     const userId = 3;
     console.log("My profile requested")
+    console.log(req.session.loggedin);
     connection.query(
         'SELECT * FROM user_profiles WHERE id = ?',
         [userId],

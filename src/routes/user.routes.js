@@ -8,8 +8,47 @@ router.use(session({
   resave: true,
 saveUninitialized: true
 }));
+router.use(function (req, res, next) {
+  req.session.test = "test";
+  next();
+});
 
 
+// LOGIN
+
+router.post('/auth', function(request, response) {
+	// Capture the input fields
+	let email = request.body.email;
+	let password = request.body.password;
+  // console.log(request.body);
+	// Ensure the input fields exists and are not empty
+	if (email && password) {
+		// Execute SQL query that'll select the account from the database based on the specified username and password
+		connection.query('SELECT * FROM `user_profiles` WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
+			// If there is an issue with the query, output the error
+			if (error) throw error;
+			// If the account exists
+			if (results.length > 0) {
+				// Authenticate the user
+				request.session.loggedin = true;
+				request.session.email = email;
+        // response.session.loggedin = true;
+        // response.session.userid = results.id;
+        // console.log(request.session);
+        // console.log(results[0].id);
+				// Redirect to home page
+				// response.redirect('/home');
+        response.send(results)
+			} else {
+				response.send('reject');
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
 
 router.get('/', (req, res) => {
     connection.query('SELECT * FROM user_profiles', (err, result) => {
@@ -23,7 +62,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
 const userId = req.params.id;
-console.log(req.session);
+console.log(req.session.test);
 connection.query(
     'SELECT * FROM user_profiles WHERE id = ?',
     [userId],
@@ -92,44 +131,5 @@ router.delete('/:id', (req, res) => {
     }
   );
 });
-
-
-// LOGIN
-
-router.post('/auth', function(request, response) {
-	// Capture the input fields
-	let email = request.body.email;
-	let password = request.body.password;
-  console.log(request.body);
-	// Ensure the input fields exists and are not empty
-	if (email && password) {
-		// Execute SQL query that'll select the account from the database based on the specified username and password
-		connection.query('SELECT * FROM `user_profiles` WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
-			// If there is an issue with the query, output the error
-			if (error) throw error;
-			// If the account exists
-			if (results.length > 0) {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.email = email;
-        request.session.id = results[0].id;
-        // response.session.loggedin = true;
-        // response.session.userid = results.id;
-        console.log(request.session);
-        console.log(results[0].id);
-				// Redirect to home page
-				// response.redirect('/home');
-        response.send(results)
-			} else {
-				response.send('reject');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
-});
-
 
 module.exports = router;

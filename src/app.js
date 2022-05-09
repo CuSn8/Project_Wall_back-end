@@ -27,6 +27,10 @@ app.use(session({
   resave: true,
 saveUninitialized: true
 }));
+app.use(function (req, res, next) {
+  req.session.test = "test";
+  next();
+});
 
 app.get("/", (req, res) => {
     res.send("Welcome");
