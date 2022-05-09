@@ -12,7 +12,6 @@ saveUninitialized: true
 
 
 router.get('/', (req, res) => {
-  console.log(req);
     connection.query('SELECT * FROM user_profiles', (err, result) => {
       if (err) {
         res.status(500).send('Error retrieving users from database');
@@ -24,6 +23,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
 const userId = req.params.id;
+console.log(req.session);
 connection.query(
     'SELECT * FROM user_profiles WHERE id = ?',
     [userId],
@@ -100,7 +100,7 @@ router.post('/auth', function(request, response) {
 	// Capture the input fields
 	let email = request.body.email;
 	let password = request.body.password;
-  console.log(request.session);
+  console.log(request.body);
 	// Ensure the input fields exists and are not empty
 	if (email && password) {
 		// Execute SQL query that'll select the account from the database based on the specified username and password
@@ -112,11 +112,16 @@ router.post('/auth', function(request, response) {
 				// Authenticate the user
 				request.session.loggedin = true;
 				request.session.email = email;
+        request.session.id = results[0].id;
+        // response.session.loggedin = true;
+        // response.session.userid = results.id;
+        console.log(request.session);
+        console.log(results[0].id);
 				// Redirect to home page
 				// response.redirect('/home');
-        response.send("Login successfull")
+        response.send(results)
 			} else {
-				response.send('Incorrect Username and/or Password!');
+				response.send('reject');
 			}			
 			response.end();
 		});
@@ -125,5 +130,6 @@ router.post('/auth', function(request, response) {
 		response.end();
 	}
 });
+
 
 module.exports = router;
