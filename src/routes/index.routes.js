@@ -3,6 +3,8 @@ const usersRouter = require('./user.routes');
 const animalsRouter = require('./animal.routes');
 const quotesRouter = require('./quotes.routes');
 const myProfileRouter = require('./myprofile.routes');
+const authRouter = require('./auth.routes');
+
 const session = require('express-session');
 
 
@@ -20,5 +22,7 @@ router.use('/users', usersRouter);
 router.use ('/animals', animalsRouter);
 router.use('/quotes', quotesRouter);
 router.use('/myprofile', myProfileRouter);
+router.use('/auth', authRouter);
+
 
 module.exports = router;
