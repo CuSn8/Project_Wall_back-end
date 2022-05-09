@@ -4,6 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const router = require('./routes/index.routes');
+const session = require('express-session');
+const path = require('path');
+
 
 const port = process.env.PORT || 8000;
 
@@ -19,6 +22,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors())
 app.use('/api', router);
+app.use(session({
+  secret: "secret",
+  resave: true,
+saveUninitialized: true
+}));
 
 app.get("/", (req, res) => {
     res.send("Welcome");
