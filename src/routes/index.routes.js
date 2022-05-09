@@ -13,6 +13,7 @@ router.use(session({
     resave: true,
   saveUninitialized: true
   }));
+
 router.use(function (req, res, next) {
     req.session.test = "test";
     next();

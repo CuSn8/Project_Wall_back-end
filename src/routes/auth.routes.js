@@ -50,3 +50,5 @@ router.post('/auth', function(request, response) {
 	}
 });
 
+module.exports = router;
+
