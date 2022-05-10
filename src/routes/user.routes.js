@@ -68,6 +68,7 @@ router.post('/', (req, res) => {
         res.status(500).send('Error saving user');
       } else {
         const id = result.insertId;
+        req.session.authId = id
         const createdAnimal = { id, first_name, last_name, full_name, title, family, list_imageUrl, email, password };
         res.status(201).json(createdAnimal);
       }
