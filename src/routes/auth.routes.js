@@ -2,6 +2,10 @@ const connection = require('../db-config');
 const router = require('express').Router();
 const session = require('express-session');
 const path = require('path');
+const cors = require('cors');
+
+
+router.use(cors());
 
 router.use(session({
     secret: "secret",

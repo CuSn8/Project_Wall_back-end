@@ -3,6 +3,9 @@ const usersRouter = require('./user.routes');
 const quotesRouter = require('./quotes.routes');
 const myProfileRouter = require('./myprofile.routes');
 const authRouter = require('./auth.routes');
+const cors = require('cors');
+
+router.use(cors());
 
 const session = require('express-session');
 
