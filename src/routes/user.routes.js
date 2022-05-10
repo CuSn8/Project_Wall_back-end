@@ -57,18 +57,18 @@ connection.query(
 }); 
 
 router.post('/', (req, res) => {
-  const { first_name, last_name, title, family, list_imageUrl, email, password } = req.body;
+  const { first_name, last_name, full_name, title, family, list_imageUrl, email, password } = req.body;
   console.log(req.body)
   connection.query(
-    'INSERT INTO `user_profiles` (`first_name`, `last_name`, `title`, `family`, `list_imageUrl`, `email`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [first_name, last_name, title, family, list_imageUrl, email, password],
+    'INSERT INTO `user_profiles` (`first_name`, `last_name`, `full_name`, `title`, `family`, `list_imageUrl`, `email`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [first_name, last_name, full_name, title, family, list_imageUrl, email, password],
     (err, result) => {
       if (err) {
         console.error(err);
         res.status(500).send('Error saving user');
       } else {
         const id = result.insertId;
-        const createdAnimal = { id, first_name, last_name, title, family, list_imageUrl, email, password };
+        const createdAnimal = { id, first_name, last_name, full_name, title, family, list_imageUrl, email, password };
         res.status(201).json(createdAnimal);
       }
     }
