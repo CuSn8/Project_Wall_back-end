@@ -5,15 +5,26 @@ const myProfileRouter = require('./myprofile.routes');
 const authRouter = require('./auth.routes');
 const cors = require('cors');
 
-router.use(cors());
+router.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+
+}));
 
 const session = require('express-session');
 
 
 router.use(session({
     secret: "secret",
-    resave: true,
-  saveUninitialized: true
+    resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+	  httpOnly: false,
+    sameSite: "lax",
+  secure: false
+  }
+
   }));
 
 router.use(function (req, res, next) {

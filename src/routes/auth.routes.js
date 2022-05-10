@@ -3,14 +3,26 @@ const router = require('express').Router();
 const session = require('express-session');
 const path = require('path');
 const cors = require('cors');
+const { cookie } = require('express/lib/response');
 
 
-router.use(cors());
+router.use(cors({
+	origin: "http://localhost:3000",
+	credentials: true
+
+}));
 
 router.use(session({
     secret: "secret",
-    resave: true,
-  saveUninitialized: true
+    resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+	  httpOnly: false,
+	  sameSite: "lax",
+  secure: false
+  }
+
   }));
   router.use(function (req, res, next) {
     req.session.test = "test";
