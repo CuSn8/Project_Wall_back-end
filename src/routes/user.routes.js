@@ -25,8 +25,8 @@ router.get('/', (req, res) => {
   });
 
 router.get('/:id', (req, res) => {
+  console.log(req.session)
 const userId = req.params.id;
-console.log(req.session.test);
 connection.query(
     'SELECT * FROM user_profiles WHERE id = ?',
     [userId],
@@ -43,6 +43,7 @@ connection.query(
 
 router.post('/', (req, res) => {
   const { first_name, last_name, title, family, list_imageUrl, email, password } = req.body;
+  console.log(req.body)
   connection.query(
     'INSERT INTO `user_profiles` (`first_name`, `last_name`, `title`, `family`, `list_imageUrl`, `email`, `password`) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [first_name, last_name, title, family, list_imageUrl, email, password],

@@ -16,11 +16,11 @@ router.use(session({
 
 // LOGIN
 
-router.post('/auth', function(request, response) {
+router.post('/', function(request, response) {
 	// Capture the input fields
 	let email = request.body.email;
 	let password = request.body.password;
-  // console.log(request.body);
+    console.log(request.body);
 	// Ensure the input fields exists and are not empty
 	if (email && password) {
 		// Execute SQL query that'll select the account from the database based on the specified username and password
@@ -32,10 +32,8 @@ router.post('/auth', function(request, response) {
 				// Authenticate the user
 				request.session.loggedin = true;
 				request.session.email = email;
-        // response.session.loggedin = true;
-        // response.session.userid = results.id;
-        // console.log(request.session);
-        // console.log(results[0].id);
+                request.session.authId = results[0].id;
+        console.log(request.session);
 				// Redirect to home page
 				// response.redirect('/home');
         response.send(results)
