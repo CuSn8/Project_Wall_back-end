@@ -16,7 +16,7 @@ router.use(function (req, res, next) {
 // MY PROFILE
 
 router.get('/', (req, res) => {
-    const userId = 3;
+    const userId = req.session.authId;
     console.log("My profile requested")
     console.log(req.session.loggedin);
     connection.query(

@@ -1,5 +1,17 @@
 const connection = require('../db-config');
 const router = require('express').Router();
+const session = require('express-session');
+const path = require('path');
+
+router.use(session({
+  secret: "secret",
+  resave: true,
+saveUninitialized: true
+}));
+router.use(function (req, res, next) {
+  req.session.test = "test";
+  next();
+});
 
 router.get('/', (req, res) => {
   console.log(req);
